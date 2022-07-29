@@ -1,0 +1,26 @@
+﻿Type,Manufacturer,PartNo,Farnell Order Code,DigiKey PartNo,Number, Unit Price , Cost ,Link
+,,,,,,,,
+Arduino,Arduino,A000053 ,2285194,1050-1066-ND,1, £16.00 , £16.00 ,https://www.digikey.co.uk/en/products/detail/arduino/A000053/4486332
+,,,,,,,,
+Keyswitches - MX Black,Cherry,MX1A-11NW,2292961,CH160-ND,14, £0.71 , £9.91 ,https://www.digikey.co.uk/en/products/detail/cherry-americas-llc/MX1A-11NW/91134
+ALTERNATIVE,,,,,,,,
+Keyswitches - MX Blue,Cherry,MX1A-E1NW,N/A,CH197-ND,14, £0.76 , £10.64 ,https://www.digikey.co.uk/en/products/detail/cherry-americas-llc/MX1A-E1NW/20180
+,,,,,,,,
+Keycaps,Adafruit,5039,N/A,1528-5039-ND,2, £3.96 , £7.92 ,https://www.digikey.co.uk/en/products/detail/adafruit-industries-llc/5039/14313478
+,,,,,,,,
+Rotary encoder,Bourns,PEC11R-4215F-S0024,2474844,PEC11R-4215F-S0024-ND,2, £1.66 , £3.32 ,https://www.digikey.co.uk/en/products/detail/bourns-inc/PEC11R-4215F-S0024/4499665
+,,,,,,,,
+,,,,,,,,
+,,,,,,,,
+Toggle switch,TE Connectivity ALCOSWITCH Switches,1-1825137-6,3406889,450-2381-ND,1,3.54,3.54,https://uk.farnell.com/alcoswitch-te-connectivity/1-1825137-6/toggle-switch-spdt-5a-120v/dp/3406889
+,,,,,,,,
+3-pin terminal block,Phoenix Contact,1729131,1729131,,1,0.976,0.976,https://uk.farnell.com/phoenix-contact/1729131/terminal-block-wire-to-brd-3pos/dp/3041451
+,,,,,,,,
+4-pin terminal block,Phoenix Contact,1729144,3041475,,1,1.12,1.12,https://uk.farnell.com/phoenix-contact/1729144/terminal-block-wire-to-brd-4pos/dp/3041475
+,,,,,,,,
+10k resistors,Multicomp pro,MCF 0.5W 10K,9338373,,5, £0.06 ,0.2975,https://uk.farnell.com/multicomp/mcf-0-5w-10k/res-10k-5-500mw-axial-carbon-film/dp/9338373
+,,,,,,,,
+10nF axial capacitors,Vishay,MKT1813310635G,1166871,,2, £1.05 ,2.1,https://uk.farnell.com/vishay/mkt1813310635g/cap-0-01-f-630v-10-pet/dp/1166871
+,,,,,,,,
+,,,,,,,,
+,,,,,,SUM:, £53.43 ,

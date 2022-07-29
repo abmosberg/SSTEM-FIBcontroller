@@ -1,0 +1,8 @@
+Arduino_Micro: Symbol, footprint and 3d model
+kicad-lib-arduinohttps://github.com/g200kg/kicad-lib-arduino
+
+Keyswitches (MX1A-E1NW): Footprint and 3d model
+Keyswitch Kicad Library
+Search in the KiCad Plugin manager
+
+Footprints and STEP models for other parts (switches, connectors) can be found by searching for their part names in UltraLibrarian and EasyEDA.
