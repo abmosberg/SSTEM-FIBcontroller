@@ -1,14 +1,14 @@
 /*
   FIBcontroller
-  Version 1.0
+  Version 1.1
 
-  Uses a combination of keyboard buttons, a rotary encoder and a toggle switch to send keyboard shortcuts. 
+  Uses a combination of keyboard buttons, a rotary encoder and a toggle switch to send keyboard shortcuts.
   Customized here for a Hitachi NX5000, with the toggle switch used to select keyboard shortcut scheme.
   Possible schemes are Classical or Modern
 
   created 24 June 2022
   by Aleksander B. Mosberg, SuperSTEM
-  
+
 */
 #include "Keyboard.h"
 
@@ -24,7 +24,7 @@ const int KEY8 = 23;
 const int KEY9 = 4;
 const int KEY10 = 14;
 // No point in defining key11, pin 17 is TX LED and can't be used with internal pullup
-// const int KEY11 = 17; 
+// const int KEY11 = 17;
 const int KEY12 = 15;
 // pins for toggle switch
 const int SW1_1 = 12;
@@ -37,9 +37,9 @@ const int SW2 = 16;
 const int BRB = 19;
 
 // set how long keys should be sent for before triggering releaseAll
-const int press_time = 100;
+const int press_time = 10;
 // how long to wait after pressing keys to prevent debounce
-const int debounce_time = 250;
+const int debounce_time = 15;
 
 int rotation;
 int value;
@@ -68,7 +68,10 @@ void setup() {
   pinMode(SW1_3, INPUT_PULLUP);
   pinMode(SW2, INPUT_PULLUP);
   pinMode(BRB, INPUT_PULLUP);
-  
+
+  //setup serial for debugging
+  // Serial.begin(9600);
+
   // the encoder does not use the internal pullup
   // NB: MAY HAVE TO CHANGE THIS TO MAKE RE WORK MORE RELIABLY
   pinMode(RE_A, INPUT_PULLUP);
@@ -91,23 +94,23 @@ void setup() {
 }
 
 // Utility function to press buttons until they are released, with a little debounce
-void buttonpress(int keypin=0, int usbkey1=0, int usbkey2=0, int usbkey3=0, int dbtime=50) {
-  if (keypin!=0)
-    if (usbkey1!=0)
+void buttonpress(int keypin = 0, int usbkey1 = 0, int usbkey2 = 0, int usbkey3 = 0, int dbtime = 50) {
+  if (keypin != 0)
+    if (usbkey1 != 0)
       Keyboard.press(usbkey1);
-    if (usbkey2!=0)
-      Keyboard.press(usbkey2);
-    if (usbkey3!=0)
-      Keyboard.press(usbkey3);
+  if (usbkey2 != 0)
+    Keyboard.press(usbkey2);
+  if (usbkey3 != 0)
+    Keyboard.press(usbkey3);
+  delay(dbtime);
+  while (digitalRead(keypin) == LOW)
     delay(dbtime);
-    while(digitalRead(keypin)==LOW)
-      delay(dbtime);
-    Keyboard.releaseAll();
-    delay(dbtime);
+  Keyboard.releaseAll();
+  delay(dbtime);
 }
 
 void loop() {
-  
+
   // first, if the BRB is pressed send the stop stage command
   if (digitalRead(BRB) == LOW) {
     Keyboard.write(KEY_PAUSE);
@@ -120,14 +123,14 @@ void loop() {
   else if (digitalRead(SW1_1) == LOW) {
     mode = 'm'; // modern keymap
   }
-  else { // neither pole is shorted, switch is in center 
+  else { // neither pole is shorted, switch is in center
     mode = 'o'; // neutral/'off' mode
   }
-  
+
   // if the encoder wheel is pressed, toggle between sub and main magnification shortcuts
   if (digitalRead(SW2) == LOW) {
     submain = !submain;
-    while (digitalRead(SW2) == LOW){
+    while (digitalRead(SW2) == LOW) {
       delay(50);
     }
     delay(debounce_time);
@@ -173,9 +176,6 @@ void loop() {
     else if (digitalRead(KEY12) == LOW) { // Key12: MPS controller display
       buttonpress(KEY12, KEY_LEFT_CTRL, 51); // 51 is ASCII DEC code for '3'
     }
-    else {
-      delay(50);
-    }
   }
   // If 'modern' mode
   else if (mode == 'm') {
@@ -217,19 +217,25 @@ void loop() {
     else if (digitalRead(KEY12) == LOW) { // Key12: MPS controller display
       buttonpress(KEY12, KEY_LEFT_CTRL, KEY_LEFT_ALT, 51); // 51 is ASCII DEC code for '3'
     }
-    else {
-      delay(50);
-    }
   }
 }
 
+// Serial printouts to put in interrupt for debugging
+//    Serial.print(F("RE_A: "));
+//    Serial.print(digitalRead(RE_A));
+//    Serial.print(F("  RE_B: "));
+//    Serial.print(digitalRead(RE_B));
+//    Serial.print(F("  encstate: "));
+//    Serial.print(encstate);
+//    Serial.print(F("  oldstate: "));
+//    Serial.println(oldstate);
+
 void readencoder() {
   encstate = digitalRead(RE_A) | (digitalRead(RE_B) << 1);
-
   // at ratchet
-  if (encstate==3) {
+  if (encstate == 3) {
     // Clockwise
-    if (oldstate==2) {
+    if (oldstate == 1) {
       if (mode == 'c') { // classical keymap
         if (submain == false) { // sub controller
           Keyboard.press(KEY_LEFT_CTRL);
@@ -257,16 +263,16 @@ void readencoder() {
       }
     }
     // Counterclockwise
-    else if (oldstate==0) {
+    else if (oldstate == 2) {
       if (mode == 'c') { // classical keymap
-        if (submain ==false) { // sub controller
+        if (submain == false) { // sub controller
           Keyboard.press(KEY_LEFT_CTRL);
           Keyboard.press(KEY_LEFT_SHIFT);
-          Keyboard.press(KEY_KP_MINUS);  
+          Keyboard.press(KEY_KP_MINUS);
         }
         else { // main controller
           Keyboard.press(KEY_LEFT_CTRL);
-          Keyboard.press(KEY_KP_MINUS);  
+          Keyboard.press(KEY_KP_MINUS);
         }
       }
       else if (mode == 'm') { //modern keymap
@@ -282,9 +288,9 @@ void readencoder() {
       }
       else { // mode is neither 'c' or 'm'. Should be 'n', so no action
         return;
-      } 
+      }
     }
-    delay(25); // small delays here so we can keep spinning
     Keyboard.releaseAll();
   }
+  oldstate = encstate;
 }
