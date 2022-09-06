@@ -94,7 +94,7 @@ void setup() {
 }
 
 // Utility function to press buttons until they are released, with a little debounce
-void buttonpress(int keypin = 0, int usbkey1 = 0, int usbkey2 = 0, int usbkey3 = 0, int dbtime = 50) {
+void buttonpress(int keypin = 0, int usbkey1 = 0, int usbkey2 = 0, int usbkey3 = 0, int dbtime = 10) {
   if (keypin != 0)
     if (usbkey1 != 0)
       Keyboard.press(usbkey1);
@@ -113,7 +113,7 @@ void loop() {
 
   // first, if the BRB is pressed send the stop stage command
   if (digitalRead(BRB) == LOW) {
-    Keyboard.write(KEY_PAUSE);
+    buttonpress(BRB, KEY_PAUSE);
   }
 
   // second, check which mode/keymap we are in
@@ -131,7 +131,7 @@ void loop() {
   if (digitalRead(SW2) == LOW) {
     submain = !submain;
     while (digitalRead(SW2) == LOW) {
-      delay(50);
+      delay(25);
     }
     delay(debounce_time);
   }
@@ -154,7 +154,7 @@ void loop() {
       buttonpress(KEY5, KEY_LEFT_SHIFT, KEY_F4);
     }
     else if (digitalRead(KEY6) == LOW) { // Key6: ACB sub
-      buttonpress(KEY6, KEY_LEFT_CTRL, KEY_F9);
+      buttonpress(KEY6, KEY_LEFT_SHIFT, KEY_F9);
     }
     else if (digitalRead(KEY7) == LOW) { // Key7: reduce scan main
       buttonpress(KEY7, KEY_F4);
